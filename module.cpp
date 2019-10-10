@@ -13,8 +13,8 @@ extern "C"
 
 int js_mymodule_init(JSContext *ctx, JSModuleDef *m)
 {
-   js_classa_init(ctx, m);
-   js_classb_init(ctx, m);
+   js_classa_init(ctx);
+   js_classb_init(ctx);
    return 0;
 }
 

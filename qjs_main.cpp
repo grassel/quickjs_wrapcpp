@@ -103,19 +103,15 @@ int main(int argc, char **argv)
     printf("importing mymod done, executing some test JS next. \n");
 
     str = "console.log('[JS] starting ....');\n"
-         "var obj = mymod.createClassA();\n"    // works
-         "console.log('[JS] obj.getIntParam() ', obj.getIntParam());\n"
-         "var obj2 = new mymod.ClassA();\n";    // "not a function error" here
-         // "var obj2 = mymod.ClassA();\n";    //  also "not a function error" here
-         /*
-         "obj = obj2;\n"
-         "console.log('[JS] obj2 -> obj.getIntParam() ', obj.getIntParam());\n"
-         "var objb = new mymod.ClassB();\n"
-         "console.log('[JS] objb.getIntParam() ', objb.getIntParam());\n"
-        "var objab = new mymod.ClassB(obj2);\n"
+         //"var obja = new ClassA();\n"
+        //"console.log('[JS] obja.getIntParam() ', obja.getIntParam());\n"
+        //"var objb = new ClassB();\n"
+        //"console.log('[JS] objb.getIntParam() ', objb.getIntParam());\n"
+        "var objab = new ClassB(new ClassA());\n"
          "console.log('[JS] objab.getIntParam() ', objab.getIntParam());\n"
-         "console.log('[JS] objab.getIntParamObjA() ', objab.getIntParamObjA());\n";
-    */
+         "console.log('[JS] objab.getIntParamObjA() ', objab.getIntParamObjA());\n"
+         "console.log('[JS] .... THE END');\n";
+
     eval_buf(ctx, str, strlen(str), "<input>", JS_EVAL_TYPE_MODULE);
     
     js_std_loop(ctx);

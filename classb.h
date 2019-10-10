@@ -9,7 +9,7 @@
 
 class ClassB : public ClassA {
     public:
-        ClassB() {
+        ClassB()  {
             printf("constructor ClassB\n");
         }
 

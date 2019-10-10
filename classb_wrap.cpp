@@ -3,6 +3,11 @@ extern "C"
 {
   #include "cutils.h"
   #include "quickjs-libc.h"
+
+  // in quickjs.c
+    JSValueConst JS_NewGlobalCConstructor(JSContext *ctx, const char *name,
+                                          JSCFunction *func, int length,
+                                          JSValueConst proto);
 }
 
 #include "classb.h"
@@ -10,8 +15,7 @@ extern "C"
 #include "classb_wrap.h"
 
 
-static JSClassID js_classb_id;
-
+extern JSClassID js_classb_id;
 
 ClassB *getClassB(JSContext *ctx, JSValueConst js_classb_obj) {
     return (ClassB *)JS_GetOpaque2(ctx, js_classb_obj, js_classb_id);
@@ -36,6 +40,8 @@ JSValue js_classb_create(JSContext *ctx, JSValueConst this_val,
         ClassA *obj = getClassA (ctx, argv[0]);
         printf("js_classb_create found param ObjA, intParam=%i \n", obj->getIntParam());
         objB->refObj = JS_DupValue(ctx, argv[0]);
+    } else {
+
     }
     return jsObj;
 }
@@ -58,6 +64,7 @@ JSValue js_classb_get_int_param_obj_a(JSContext *ctx, JSValueConst this_val,
 static JSClassDef js_classb_class = {
     "ClassB",
     .finalizer = js_class_finalizer,
+    .gc_mark = js_object_data_mark
 };
 
 
@@ -67,7 +74,7 @@ static const JSCFunctionListEntry js_classb_proto_funcs[] = {
 };
 
 
-void js_classb_init(JSContext *ctx, JSModuleDef *m)
+void js_classb_init(JSContext *ctx)
 {
     printf("js_classb_init ...\n");
 
@@ -82,9 +89,7 @@ void js_classb_init(JSContext *ctx, JSModuleDef *m)
                                countof(js_classb_proto_funcs));
     JS_SetClassProto(ctx, js_classb_id, proto);
 
-    /* ClassB constructor */
-    JSValue construct = JS_NewCFunction2(ctx, js_classb_create, "ClassB", 1, JS_CFUNC_constructor, 0);
-    JS_SetModuleExport(ctx, m, "ClassB", construct);
+    JS_NewGlobalCConstructor(ctx, "ClassB", js_classb_create, 1, proto);
 
     printf("js_classb_init ... DONE\n");
 }

@@ -716,6 +716,7 @@ int JS_DefinePropertyGetSet(JSContext *ctx, JSValueConst this_obj,
 void JS_SetOpaque(JSValue obj, void *opaque);
 void *JS_GetOpaque(JSValueConst obj, JSClassID class_id);
 void *JS_GetOpaque2(JSContext *ctx, JSValueConst obj, JSClassID class_id);
+void *JS_GetOpaque3(JSValueConst obj, JSClassID class_id1, JSClassID class_id2);
 
 typedef void JSFreeArrayBufferDataFunc(JSRuntime *rt, void *opaque, void *ptr);
 JSValue JS_NewArrayBuffer(JSContext *ctx, uint8_t *buf, size_t len,

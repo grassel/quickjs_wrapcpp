@@ -15,7 +15,10 @@ extern "C"
 class classA;
 
 void js_class_finalizer(JSRuntime *rt, JSValue val);
-void js_classa_init(JSContext *ctx, JSModuleDef *m);
+void js_object_data_mark(JSRuntime *rt, JSValueConst val,
+                         JS_MarkFunc *mark_func);
+
+void js_classa_init(JSContext *ctx);
 JSValue js_classa_create(JSContext *ctx, JSValueConst this_val,
                          int argc, JSValueConst *argv);
 ClassA *getClassA(JSContext *ctx, JSValueConst js_classa_obj);

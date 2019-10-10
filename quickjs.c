@@ -9182,6 +9182,18 @@ void *JS_GetOpaque(JSValueConst obj, JSClassID class_id)
     return p->u.opaque;
 }
 
+/* return NULL if not an object of class class_id1 or class_id2 */
+void *JS_GetOpaque3(JSValueConst obj, JSClassID class_id1, JSClassID class_id2)
+{
+    JSObject *p;
+    if (JS_VALUE_GET_TAG(obj) != JS_TAG_OBJECT)
+        return NULL;
+    p = JS_VALUE_GET_OBJ(obj);
+    if ((p->class_id != class_id1) && (p->class_id != class_id2))
+        return NULL;
+    return p->u.opaque;
+}
+
 void *JS_GetOpaque2(JSContext *ctx, JSValueConst obj, JSClassID class_id)
 {
     void *p = JS_GetOpaque(obj, class_id);
@@ -33475,7 +33487,7 @@ static void JS_NewGlobalCConstructor2(JSContext *ctx,
     JS_FreeValue(ctx, func_obj);
 }
 
-static JSValueConst JS_NewGlobalCConstructor(JSContext *ctx, const char *name,
+JSValueConst JS_NewGlobalCConstructor(JSContext *ctx, const char *name,
                                              JSCFunction *func, int length,
                                              JSValueConst proto)
 {
