@@ -279,10 +279,10 @@ run-test262-bn32: $(patsubst %.o, %.m32.o, $(OBJDIR)/run-test262.bn.o $(QJSBN_LI
 
 # object suffix order: bn, nolto, [m32|m32s]
 
-$(OBJDIR)/qjs_main.o : qjs_main.cpp
+$(OBJDIR)/qjs_main.o : wrap/qjs_main.cpp
 	$(CC) $(CFLAGS_OPT) -c -o $@ $<
 
-$(OBJDIR)/%.o: %.cpp | $(OBJDIR)
+$(OBJDIR)/%.o: wrap/%.cpp | $(OBJDIR)
 	$(CC) $(CFLAGS_OPT) -c -o $@ $<
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)

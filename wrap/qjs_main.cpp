@@ -17,8 +17,8 @@
 
 extern "C"
 {
-#include "cutils.h"
-#include "quickjs-libc.h"
+#include "../cutils.h"
+#include "../quickjs-libc.h"
 }
 
 #include "module.h"

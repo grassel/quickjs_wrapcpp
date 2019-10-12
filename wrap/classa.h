@@ -4,7 +4,11 @@
 #define CLASS_A_H
 
 #include <printf.h>
-#include "quickjs.h"
+
+extern "C"
+{
+#include "../quickjs.h"
+}
 
 class ClassA {
     public:

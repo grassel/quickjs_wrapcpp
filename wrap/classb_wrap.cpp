@@ -1,8 +1,8 @@
 
 extern "C"
 {
-  #include "cutils.h"
-  #include "quickjs-libc.h"
+  #include "../cutils.h"
+  #include "../quickjs-libc.h"
 
   // in quickjs.c
     JSValueConst JS_NewGlobalCConstructor(JSContext *ctx, const char *name,

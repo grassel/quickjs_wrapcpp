@@ -1,7 +1,7 @@
 extern "C"
 {
-    #include "cutils.h"
-    #include "quickjs-libc.h"
+    #include "../cutils.h"
+    #include "../quickjs-libc.h"
 }
 
 #include "classa_wrap.h"
