@@ -16,17 +16,19 @@ extern "C"
 JSClassID js_classa_id;
 JSClassID js_classb_id;
 
-void js_class_finalizer(JSRuntime *rt, JSValue val)
+void js_classa_finalizer(JSRuntime *rt, JSValue val)
 {
-    printf("js_class_finalizer ...\n");
-    ClassA *obj = (ClassA *) JS_GetOpaque3(val, js_classa_id, js_classb_id);
-    if (obj)
+    printf("js_classa_finalizer ...\n");
+    void* data = JS_GetOpaque(val, js_classa_id);
+    if (data)
     {
+        ClassA *obj = (ClassA *) data;
+        printf("   ... deleting obja [%d]\n", obj->id);
         delete obj;
     }
     else
     {
-        printf("ERROR: js_class_finalizer: can not get handle to object from opaque data.\n");
+        printf("ERROR: js_classa_finalizer: can not get handle to object from opaque data.\n");
     }
 }
 
@@ -68,14 +70,14 @@ JSValue js_classa_get_int_param(JSContext *ctx, JSValueConst this_val,
     printf("js_classa_get_int_param ...\n");
     ClassA *obj = getClassA(ctx, this_val);
     int result = obj->getIntParam();
-    printf("js_classa_get_int_param: result=%d. \n", result);
+    // printf("js_classa_get_int_param: result=%d. \n", result);
     JSValue jsResult = JS_NewInt32(ctx, result);
     return jsResult;
 }
 
 static JSClassDef js_classa_class = {
     "ClassA",
-    .finalizer = js_class_finalizer,
+    .finalizer = js_classa_finalizer,
     .gc_mark = js_object_data_mark
 };
 

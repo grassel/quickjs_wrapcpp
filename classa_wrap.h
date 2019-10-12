@@ -14,7 +14,7 @@ extern "C"
 
 class classA;
 
-void js_class_finalizer(JSRuntime *rt, JSValue val);
+void js_classa_finalizer(JSRuntime *rt, JSValue val);
 void js_object_data_mark(JSRuntime *rt, JSValueConst val,
                          JS_MarkFunc *mark_func);
 

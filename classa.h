@@ -9,16 +9,21 @@
 class ClassA {
     public:
         ClassA() {
-            printf("constructor ClassA\n");
+            id = ClassA::counter++;
+            printf("[%i] constructor ClassA\n", id);
         }
 
         virtual ~ClassA() {
-            printf("destructor ClassA\n");
+            printf("[%i] destructor ClassA\n", id);
         }
 
         virtual int getIntParam() {
+            printf("[%i] ClassA.getIntParam() returns 47\n", id);
             return 47;
         }
+        int id;
+
+        static int counter;
 };
 
 #endif

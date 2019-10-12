@@ -103,14 +103,21 @@ int main(int argc, char **argv)
     printf("importing mymod done, executing some test JS next. \n");
 
     str = "console.log('[JS] starting ....');\n"
-         //"var obja = new ClassA();\n"
-        //"console.log('[JS] obja.getIntParam() ', obja.getIntParam());\n"
-        //"var objb = new ClassB();\n"
-        //"console.log('[JS] objb.getIntParam() ', objb.getIntParam());\n"
-        "var objab = new ClassB(new ClassA());\n"
-         "console.log('[JS] objab.getIntParam() ', objab.getIntParam());\n"
-         "console.log('[JS] objab.getIntParamObjA() ', objab.getIntParamObjA());\n"
-         "console.log('[JS] .... THE END');\n";
+         "var obja = new ClassA();\n"
+        "console.log('[JS] obja.getIntParam() ', obja.getIntParam());\n"
+        "console.log('[JS] creating new ClassB(obja)');\n"
+        "var objb = new ClassB(obja);\n"
+        "console.log('[JS] obja=null');\n"
+        "obja='';\n"
+        "console.log('[JS] objb.getIntParam() ', objb.getIntParam());\n"
+        "console.log('[JS] objb.getIntParamObjA() ', objb.getIntParamObjA());\n"
+        "console.log('[JS] resettting objb as new ClassB(new ClassA()');\n"
+       "var objb = new ClassB(new ClassA());\n"
+       "console.log('[JS] objab.getIntParam() ', objb.getIntParam());\n"
+       "console.log('[JS] objab.getIntParamObjA() ', objb.getIntParamObjA());\n"
+       "console.log('[JS] objb=null');\n"
+       "objb = ''\n"
+       "console.log('[JS] .... THE END');\n";
 
     eval_buf(ctx, str, strlen(str), "<input>", JS_EVAL_TYPE_MODULE);
     

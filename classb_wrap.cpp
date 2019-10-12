@@ -37,8 +37,8 @@ JSValue js_classb_create(JSContext *ctx, JSValueConst this_val,
 
     if ((argc > 0) &&
         (JS_IsObject(argv[0]))) {
-        ClassA *obj = getClassA (ctx, argv[0]);
-        printf("js_classb_create found param ObjA, intParam=%i \n", obj->getIntParam());
+        ClassA *objA = getClassA (ctx, argv[0]);
+        printf("[%i] js_classb_create found param ObjA [%i].\n", objB->id, objA->id);
         objB->refObj = JS_DupValue(ctx, argv[0]);
     } else {
 
@@ -46,6 +46,24 @@ JSValue js_classb_create(JSContext *ctx, JSValueConst this_val,
     return jsObj;
 }
 
+
+void js_classb_finalizer(JSRuntime *rt, JSValue val)
+{
+    printf("js_classb_finalizer ...\n");
+    void* data = JS_GetOpaque(val, js_classb_id);
+    if (data)
+    {
+        ClassB *objb = (ClassB *) data;
+        JSValue jsObjA = objb->refObj;
+        JS_FreeValueRT(rt, jsObjA);
+         printf("   ... deleting objb [%d]\n", objb->id);
+        delete objb;
+    }
+    else
+    {
+        printf("ERROR: js_classa_finalizer: can not get handle to object from opaque data.\n");
+    }
+}
 
 JSValue js_classb_get_int_param_obj_a(JSContext *ctx, JSValueConst this_val,
                                 int argc, JSValueConst *argv)
@@ -55,7 +73,7 @@ JSValue js_classb_get_int_param_obj_a(JSContext *ctx, JSValueConst this_val,
     ClassA *objA = getClassA (ctx, objB->refObj);
     int result = objA->getIntParam();
     
-    printf("js_classb_get_int_param_obj_a: result=%d. \n", result);
+    //printf("js_classb_get_int_param_obj_a: result=%d. \n", result);
     JSValue jsResult = JS_NewInt32(ctx, result);
     return jsResult;
 }
@@ -63,7 +81,7 @@ JSValue js_classb_get_int_param_obj_a(JSContext *ctx, JSValueConst this_val,
 
 static JSClassDef js_classb_class = {
     "ClassB",
-    .finalizer = js_class_finalizer,
+    .finalizer = js_classb_finalizer,
     .gc_mark = js_object_data_mark
 };
 

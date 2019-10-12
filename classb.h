@@ -10,14 +10,15 @@
 class ClassB : public ClassA {
     public:
         ClassB()  {
-            printf("constructor ClassB\n");
+            printf("[%i] constructor ClassB\n", id);
         }
 
         virtual ~ClassB() {
-            printf("destructor ClassB\n");
+            printf("[%i] destructor ClassB\n", id);
         }
 
         virtual int getIntParam() {
+            printf("[%i] ClassB.getIntParam() returns 48\n", id);
             return 48;
         }
         
